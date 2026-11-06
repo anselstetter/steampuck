@@ -1,0 +1,27 @@
+# steampuck — Steam Controller -> virtual Xbox 360 pad, no Steam.
+#
+# Install (per-user, starts on login; the daemon itself waits for the receiver
+# and survives unplug/replug, so no udev rule is needed):
+#
+#   mkdir -p ~/.config/systemd/user
+#   cp packaging/steampuck.service ~/.config/systemd/user/
+#   systemctl --user daemon-reload
+#   systemctl --user enable --now steampuck.service
+#
+# Logs:  journalctl --user -u steampuck -f
+# Stop:  systemctl --user disable --now steampuck.service
+#
+# ExecStart points at the release binary in this repo; adjust if you move it, or
+# `cargo install --path . --root ~/.local` and use %h/.local/bin/steampuck.
+
+[Unit]
+Description=steampuck: Steam Controller -> virtual Xbox 360 pad (no Steam)
+After=graphical-session.target
+
+[Service]
+ExecStart=%h/Dev/steamcontroller/target/release/steampuck
+Restart=always
+RestartSec=2
+
+[Install]
+WantedBy=default.target

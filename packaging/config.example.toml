@@ -1,0 +1,47 @@
+# steampuck configuration — ~/.config/steampuck/config.toml
+# (or $XDG_CONFIG_HOME/steampuck/config.toml). steampuck writes this default
+# file there on first run; edit freely, delete to regenerate.
+#
+# Everything is optional; a missing section means the defaults below.
+# A malformed file (including unknown/typo'd keys) is reported on stderr and
+# ignored — the daemon starts with defaults rather than leaving you without a
+# controller. Apply changes with:  systemctl --user restart steampuck
+#
+# Button names (case-insensitive):
+#   A B X Y  LB RB  L3 R3  L4 L5 R4 R5  VIEW MENU STEAM QAM
+#   DPAD_UP DPAD_DOWN DPAD_LEFT DPAD_RIGHT  LGRIP RGRIP
+#   LPAD_TOUCH LPAD_CLICK RPAD_TOUCH RPAD_CLICK
+#   LSTICK_TOUCH RSTICK_TOUCH  LTRIGGER_CLICK RTRIGGER_CLICK
+#
+# A chord fires when ALL its buttons are held; extra pressed buttons are
+# ignored (the touch bits are live whenever a finger rests somewhere, so exact
+# matching would never fire). If chords overlap, the one with more buttons
+# wins. Note: chord buttons still reach the game while held.
+#
+# feedback = "chime"   haptic sweep (parameters below, or the built-in default)
+#            "rumble"  a short rumble tick ([feedback] rumble_strength)
+#            "none"    silent
+
+[chords.xbox]                          # switch to Xbox mode / re-assert mouse-off
+buttons  = ["L4", "L5", "R4", "R5", "X"]
+feedback = "chime"
+# Optional chime override; default: rising 200 -> 800 Hz over 250 ms.
+# [chords.xbox.chime]
+# start_hz = 200
+# end_hz   = 800
+# ms       = 250
+# gain_db  = 0                         # 0 = firmware default volume, +/- dB
+
+[chords.steam]                         # release the controller to Steam Input
+buttons  = ["L4", "L5", "R4", "R5", "A"]
+feedback = "chime"                     # default chime: falling 800 -> 200 Hz
+
+[chords.mouse]                         # toggle the lizard mouse/keyboard
+buttons  = ["L4", "L5", "R4", "R5", "B"]
+feedback = "chime"                     # default chime: short 400 -> 600 Hz blip
+
+[feedback]
+rumble_strength = 50                   # percent, for feedback = "rumble"
+
+[motion]
+gyro_scale = 16.384                    # LSB per deg/s (32768 / 2000 dps)
